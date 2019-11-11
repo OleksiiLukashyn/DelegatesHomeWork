@@ -121,7 +121,7 @@ namespace LukashynHomeWork3
                                     {
                                         checked
                                         {
-                                            aNumbers[i] = aNumbers[i] + aNumbers[i + 1];
+                                            aNumbers[i] = aNumbers[i] * aNumbers[i + 1];
                                         }
                                         for (int j = i; j < aOperators.Count - 1; j++)
                                         {
