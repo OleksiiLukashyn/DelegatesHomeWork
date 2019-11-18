@@ -1,5 +1,4 @@
 # LukashynHomeWork3
-IT Cloud Academy home work (delegates, lambdas, anonymous methods)
 Реализуйте арифметические операции (+-*/) при помощи:
 - Делегатов (1 handler)<-- здесь все 4 операции
 - Анонимных функций (+-)
