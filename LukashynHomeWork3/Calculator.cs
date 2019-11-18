@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 namespace LukashynHomeWork3
 {
-    class Calculator
+    internal class Calculator
     {
         public static List<char> ReadInput()
         {
             var input = new List<char>();
             while (true)
             {
-                for (int i = 0; ; i++)
+                for (var i = 0; ; i++)
                 {
                     var t = Console.ReadKey();
                     if ((t.KeyChar >= '0' && t.KeyChar <= '9') || t.KeyChar == '*' || t.KeyChar == '/' || t.KeyChar == '+' || t.KeyChar == '-' || t.KeyChar == '=')
@@ -22,10 +22,8 @@ namespace LukashynHomeWork3
                             {
                                 return input;
                             }
-                            else
-                            {
-                                throw new ArgumentException("Argument Exception. Incorrect use of =");
-                            }
+
+                            throw new ArgumentException("Argument Exception. Incorrect use of =");
                         }
                         if (t.KeyChar == '*' || t.KeyChar == '/' || t.KeyChar == '+' || t.KeyChar == '-')
                         {
@@ -49,7 +47,7 @@ namespace LukashynHomeWork3
         {
             numbers = new List<int>();
             operators = new List<char>();
-            for (int i = 0; i < input.Count; i++)
+            for (var i = 0; i < input.Count; i++)
             {
                 if (input[i] == '*' || input[i] == '/' || input[i] == '+' || input[i] == '-')
                 {
@@ -63,14 +61,7 @@ namespace LukashynHomeWork3
                 {
                     if (i >= 1 && input[i - 1] >= '0' && input[i - 1] <= '9')
                     {
-                        try
-                        {
-                            numbers[numbers.Count - 1] = int.Parse(numbers[numbers.Count - 1].ToString() + (input[i] - '0').ToString());
-                        }
-                        catch (OverflowException)
-                        {
-                            throw;
-                        }
+                        numbers[numbers.Count - 1] = int.Parse(numbers[numbers.Count - 1] + (input[i] - '0').ToString());
                     }
                     else
                     {
@@ -81,109 +72,79 @@ namespace LukashynHomeWork3
         }
         public static int Count(List<int> numbers, List<char> operators)
         {
-            for (int i = 0; i < operators.Count; i++)
+            for (var i = 0; i < operators.Count; i++)
             {
                 if (operators[i] == '*' || operators[i] == '/')
                 {
 
                     if (operators[i] == '*')
                     {
-                        try
+                        checked
                         {
-                            checked
-                            {
-                                numbers[i] = numbers[i] * numbers[i + 1];
-                            }
-                            for (int j = i; j < operators.Count - 1; j++)
-                            {
-                                operators[j] = operators[j + 1];
-                                numbers[j + 1] = numbers[j + 2];
-                            }
-                            numbers.RemoveAt(numbers.Count - 1);
-                            operators.RemoveAt(operators.Count - 1);
-                            i--;
+                            numbers[i] = numbers[i] * numbers[i + 1];
                         }
-                        catch (OverflowException)
+                        for (var j = i; j < operators.Count - 1; j++)
                         {
-                            throw;
+                            operators[j] = operators[j + 1];
+                            numbers[j + 1] = numbers[j + 2];
                         }
+                        numbers.RemoveAt(numbers.Count - 1);
+                        operators.RemoveAt(operators.Count - 1);
+                        i--;
                     }
                     else if (operators[i] == '/')
                     {
-                        try
+                        numbers[i] = numbers[i] / numbers[i + 1];
+                        for (var j = i; j < operators.Count - 1; j++)
                         {
-                            numbers[i] = numbers[i] / numbers[i + 1];
-                            for (int j = i; j < operators.Count - 1; j++)
-                            {
-                                operators[j] = operators[j + 1];
-                                numbers[j + 1] = numbers[j + 2];
-                            }
-                            numbers.RemoveAt(numbers.Count - 1);
-                            operators.RemoveAt(operators.Count - 1);
-                            i--;
+                            operators[j] = operators[j + 1];
+                            numbers[j + 1] = numbers[j + 2];
                         }
-                        catch (DivideByZeroException)
-                        {
-                            throw;
-                        }
+                        numbers.RemoveAt(numbers.Count - 1);
+                        operators.RemoveAt(operators.Count - 1);
+                        i--;
                     }
                 }
             }
-            for (int i = 0; i < operators.Count; i++)
+            for (var i = 0; i < operators.Count; i++)
             {
                 if (operators[i] == '+')
                 {
-                    try
+                    checked
                     {
-                        checked
-                        {
-                            numbers[i] = numbers[i] + numbers[i + 1];
-                        }
-                        for (int j = i; j < operators.Count - 1; j++)
-                        {
-                            operators[j] = operators[j + 1];
-                            numbers[j + 1] = numbers[j + 2];
-                        }
-                        numbers.RemoveAt(numbers.Count - 1);
-                        operators.RemoveAt(operators.Count - 1);
-                        i--;
+                        numbers[i] = numbers[i] + numbers[i + 1];
                     }
-                    catch (OverflowException)
+                    for (var j = i; j < operators.Count - 1; j++)
                     {
-                        throw;
+                        operators[j] = operators[j + 1];
+                        numbers[j + 1] = numbers[j + 2];
                     }
+                    numbers.RemoveAt(numbers.Count - 1);
+                    operators.RemoveAt(operators.Count - 1);
+                    i--;
                 }
                 else if (operators[i] == '-')
                 {
-                    try
+                    checked
                     {
-                        checked
-                        {
-                            numbers[i] = numbers[i] - numbers[i + 1];
-                        }
-                        for (int j = i; j < operators.Count - 1; j++)
-                        {
-                            operators[j] = operators[j + 1];
-                            numbers[j + 1] = numbers[j + 2];
-                        }
-                        numbers.RemoveAt(numbers.Count - 1);
-                        operators.RemoveAt(operators.Count - 1);
-                        i--;
+                        numbers[i] = numbers[i] - numbers[i + 1];
                     }
-                    catch (OverflowException)
+                    for (var j = i; j < operators.Count - 1; j++)
                     {
-                        throw;
+                        operators[j] = operators[j + 1];
+                        numbers[j + 1] = numbers[j + 2];
                     }
+                    numbers.RemoveAt(numbers.Count - 1);
+                    operators.RemoveAt(operators.Count - 1);
+                    i--;
                 }
             }
             if (numbers.Count == 1)
             {
                 return numbers[0];
             }
-            else
-            {
-                throw new ArgumentException("Argument Exception. Something goes wrong");
-            }
+
+            throw new ArgumentException("Argument Exception. Something goes wrong");
         }
     }
 }

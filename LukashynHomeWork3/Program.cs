@@ -4,9 +4,10 @@ using System.Collections.Generic;
 namespace LukashynHomeWork3
 {
     public delegate int MyHandler(List<int> numbers, List<char> operators);
-    class Program
+
+    internal class Program
     {
-        static void Main()
+        private static void Main()
         {
             MyHandler myHandler;
             Console.WriteLine("Solution maked with delegates(you can use +, -, *, /)");
@@ -15,7 +16,7 @@ namespace LukashynHomeWork3
                 try
                 {
                     var input = Calculator.ReadInput();
-                    Calculator.ParseInput(input, out List<int> numbers, out List<char> operators);
+                    Calculator.ParseInput(input, out var numbers, out var operators);
                     myHandler = Calculator.Count;
                     var answer = myHandler(numbers, operators);
                     Console.WriteLine(answer);
@@ -32,54 +33,40 @@ namespace LukashynHomeWork3
                 try
                 {
                     var input = Calculator.ReadInput();
-                    Calculator.ParseInput(input, out List<int> numbers, out List<char> operators);
+                    Calculator.ParseInput(input, out var numbers, out var operators);
                     myHandler = delegate (List<int> aNumbers, List<char> aOperators)
                     {
-                        for (int i = 0; i < aOperators.Count; i++)
+                        for (var i = 0; i < aOperators.Count; i++)
                         {
                             switch (aOperators[i])
                             {
                                 case '+':
-                                    try
+                                    checked
                                     {
-                                        checked
-                                        {
-                                            aNumbers[i] = aNumbers[i] + aNumbers[i + 1];
-                                        }
-                                        for (int j = i; j < aOperators.Count - 1; j++)
-                                        {
-                                            aOperators[j] = aOperators[j + 1];
-                                            aNumbers[j + 1] = aNumbers[j + 2];
-                                        }
-                                        aNumbers.RemoveAt(aNumbers.Count - 1);
-                                        aOperators.RemoveAt(aOperators.Count - 1);
-                                        i--;
+                                        aNumbers[i] = aNumbers[i] + aNumbers[i + 1];
                                     }
-                                    catch (OverflowException)
+                                    for (var j = i; j < aOperators.Count - 1; j++)
                                     {
-                                        throw;
+                                        aOperators[j] = aOperators[j + 1];
+                                        aNumbers[j + 1] = aNumbers[j + 2];
                                     }
+                                    aNumbers.RemoveAt(aNumbers.Count - 1);
+                                    aOperators.RemoveAt(aOperators.Count - 1);
+                                    i--;
                                     break;
                                 case '-':
-                                    try
+                                    checked
                                     {
-                                        checked
-                                        {
-                                            aNumbers[i] = aNumbers[i] - aNumbers[i + 1];
-                                        }
-                                        for (int j = i; j < aOperators.Count - 1; j++)
-                                        {
-                                            aOperators[j] = aOperators[j + 1];
-                                            aNumbers[j + 1] = aNumbers[j + 2];
-                                        }
-                                        aNumbers.RemoveAt(aNumbers.Count - 1);
-                                        aOperators.RemoveAt(aOperators.Count - 1);
-                                        i--;
+                                        aNumbers[i] = aNumbers[i] - aNumbers[i + 1];
                                     }
-                                    catch (OverflowException)
+                                    for (var j = i; j < aOperators.Count - 1; j++)
                                     {
-                                        throw;
+                                        aOperators[j] = aOperators[j + 1];
+                                        aNumbers[j + 1] = aNumbers[j + 2];
                                     }
+                                    aNumbers.RemoveAt(aNumbers.Count - 1);
+                                    aOperators.RemoveAt(aOperators.Count - 1);
+                                    i--;
                                     break;
                                 default:
                                     throw new ArgumentException("Incorrect operator. Only + and - allowed");
@@ -89,10 +76,8 @@ namespace LukashynHomeWork3
                         {
                             return aNumbers[0];
                         }
-                        else
-                        {
-                            throw new ArgumentException("Argument Exception. Something goes wrong");
-                        }
+
+                        throw new ArgumentException("Argument Exception. Something goes wrong");
                     };
                     var answer = myHandler(numbers, operators);
                     Console.WriteLine(answer);
@@ -109,54 +94,40 @@ namespace LukashynHomeWork3
                 try
                 {
                     var input = Calculator.ReadInput();
-                    Calculator.ParseInput(input, out List<int> numbers, out List<char> operators);
-                    myHandler = (List<int> aNumbers, List<char> aOperators) =>
+                    Calculator.ParseInput(input, out var numbers, out var operators);
+                    myHandler = (aNumbers, aOperators) =>
                     {
-                        for (int i = 0; i < aOperators.Count; i++)
+                        for (var i = 0; i < aOperators.Count; i++)
                         {
                             switch (aOperators[i])
                             {
                                 case '*':
-                                    try
+                                    checked
                                     {
-                                        checked
-                                        {
-                                            aNumbers[i] = aNumbers[i] * aNumbers[i + 1];
-                                        }
-                                        for (int j = i; j < aOperators.Count - 1; j++)
-                                        {
-                                            aOperators[j] = aOperators[j + 1];
-                                            aNumbers[j + 1] = aNumbers[j + 2];
-                                        }
-                                        aNumbers.RemoveAt(aNumbers.Count - 1);
-                                        aOperators.RemoveAt(aOperators.Count - 1);
-                                        i--;
+                                        aNumbers[i] = aNumbers[i] * aNumbers[i + 1];
                                     }
-                                    catch (OverflowException)
+                                    for (var j = i; j < aOperators.Count - 1; j++)
                                     {
-                                        throw;
+                                        aOperators[j] = aOperators[j + 1];
+                                        aNumbers[j + 1] = aNumbers[j + 2];
                                     }
+                                    aNumbers.RemoveAt(aNumbers.Count - 1);
+                                    aOperators.RemoveAt(aOperators.Count - 1);
+                                    i--;
                                     break;
                                 case '/':
-                                    try
+                                    checked
                                     {
-                                        checked
-                                        {
-                                            aNumbers[i] = aNumbers[i] / aNumbers[i + 1];
-                                        }
-                                        for (int j = i; j < aOperators.Count - 1; j++)
-                                        {
-                                            aOperators[j] = aOperators[j + 1];
-                                            aNumbers[j + 1] = aNumbers[j + 2];
-                                        }
-                                        aNumbers.RemoveAt(aNumbers.Count - 1);
-                                        aOperators.RemoveAt(aOperators.Count - 1);
-                                        i--;
+                                        aNumbers[i] = aNumbers[i] / aNumbers[i + 1];
                                     }
-                                    catch (DivideByZeroException)
+                                    for (var j = i; j < aOperators.Count - 1; j++)
                                     {
-                                        throw;
+                                        aOperators[j] = aOperators[j + 1];
+                                        aNumbers[j + 1] = aNumbers[j + 2];
                                     }
+                                    aNumbers.RemoveAt(aNumbers.Count - 1);
+                                    aOperators.RemoveAt(aOperators.Count - 1);
+                                    i--;
                                     break;
                                 default:
                                     throw new ArgumentException("Incorrect operator. Only * and / allowed");
@@ -166,10 +137,8 @@ namespace LukashynHomeWork3
                         {
                             return aNumbers[0];
                         }
-                        else
-                        {
-                            throw new ArgumentException("Argument Exception. Something goes wrong");
-                        }
+
+                        throw new ArgumentException("Argument Exception. Something goes wrong");
                     };
                     var answer = myHandler(numbers, operators);
                     Console.WriteLine(answer);
